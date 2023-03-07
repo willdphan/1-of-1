@@ -4,7 +4,7 @@ pragma solidity 0.8.15;
 import "lib/openzeppelin-contracts/contracts/proxy/Proxy.sol";
 import "lib/forge-std/src/console.sol";
 
-// Allowing for upgrades or changes to the implementation (1:1) contract without affecting 
+// Allows for upgrades or changes to the implementation (1:1) contract without affecting 
 // the contract address or ABI used by clients.
 contract OneOfOneProxy is Proxy {
     address immutable _nftImplementation;
