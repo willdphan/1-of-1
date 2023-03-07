@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.15;
 
+import "src/OneOfOneProxy.sol";
+
 // Creates new instances of the 1:1 contract
 // Takes the 1:1 implementation address as an argument and uses it to create a new 
 // NFTCoreProxy contract, which is then initialized with a name and 

@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.15;
 
+import "src/Initializable.sol";
+
 // The 1:1 implementation and the basic functionality
 contract OneOfOne is Initializable {
     string name;
