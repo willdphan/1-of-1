@@ -2,10 +2,11 @@
 pragma solidity 0.8.15;
 
 import "src/OneOfOne.sol";
+import "src/OneOfOneBuilder.sol";
 
-// MinimalProxy contract sets up an instance of NFTCore and NFTCoreBuilder.
+// MinimalProxy contract sets up an instance of OneOfOne and OneOfOneBuilder
 // testProxy() creates a new NFT contract using createNFTContract() 
-// function of NFTCoreBuilder contract, and calls the getMetaData() from NFTCore Contract.
+// function of OneOfOneBuilder contract, and calls the getMetaData() from OneOfOne Contract.
 contract MinimalProxy {
     OneOfOne oneOfOne;
     OneOfOneBuilder builder;
