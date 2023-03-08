@@ -18,6 +18,6 @@ contract OneOfOneBuilder {
     function createNFTContract(string memory name) public returns (address newNFTAddress) {
         OneOfOneProxy newProxy = new OneOfOneProxy(implementation);
         newNFTAddress = payable(address(newProxy));
-        OneOfOne(newNFTAddress).initialize(name);
+        OneOfOne(newNFTAddress).initialize(name, name);
     }
 }

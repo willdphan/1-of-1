@@ -1,11 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.15;
 
-import "src/Initializable.sol";
-
 // The 1:1 implementation and the basic functionality
 import "lib/openzeppelin-contracts/contracts/utils/Context.sol";
-import "src/Initializable.sol";
+import "src/utils/Initializable.sol";
 
 // based off of https://github.com/transmissions11/solmate/blob/main/src/tokens/ERC721.sol
 // only 1 mint is allowed with ID of 1
@@ -31,6 +29,14 @@ contract OneOfOne is Context, Initializable {
     /// BALANCE/OWNER STORAGE ///
 
     mapping(uint256 => address) internal _ownerOf;
+
+     // Mapping owner address to token count
+    mapping(address => uint256) private _balances;
+
+    function balanceOf(address owner) public view virtual returns (uint256) {
+        require(owner != address(0), "ERC721: address zero is not a valid owner");
+        return _balances[owner];
+    }
 
     function ownerOf() public view virtual returns (address owner) {
         require((owner = _ownerOf[1]) != address(0), "NOT_MINTED");
@@ -138,6 +144,11 @@ contract OneOfOne is Context, Initializable {
         // set minted to true
         _minted = true;
 
+        // Counter overflow is incredibly unrealistic.
+        unchecked {
+            _balances[to]++;
+        }
+
         _ownerOf[1] = to;
 
         emit Transfer(address(0), to);
@@ -147,6 +158,11 @@ contract OneOfOne is Context, Initializable {
         address owner = _ownerOf[1];
 
         require(owner != address(0), "NOT_MINTED");
+
+        // Ownership check above ensures no underflow.
+        unchecked {
+            _balances[owner]--;
+        }
 
         delete _ownerOf[1];
 
