@@ -5,10 +5,7 @@ pragma solidity 0.8.15;
 // import {DSInvariantTest} from "./utils/DSInvariantTest.sol";
 import {Test} from "lib/forge-std/src/Test.sol";
 
-import {OneOfOne} from "src/OneOfOne.sol";
-
-import {OneOfOneTokenReceiver} from "src/utils/OneOfOneReceiver.sol";
-
+import {OneOfOne} from "src/proxy/OneOfOne.sol";
 
 contract OneOfOneTest is Test {
 
@@ -22,6 +19,10 @@ contract OneOfOneTest is Test {
 
         vm.label(bob, "BOB");
         vm.label(bill, "BILL");
+    }
+
+    function testDeploy() public {
+        one = new OneOfOne();
     }
 
     function testMint() public {

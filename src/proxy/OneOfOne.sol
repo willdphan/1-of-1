@@ -3,13 +3,14 @@ pragma solidity 0.8.15;
 
 // The 1:1 implementation and the basic functionality
 import "lib/openzeppelin-contracts/contracts/utils/Context.sol";
-import "src/utils/Initializable.sol";
+import "src/proxy/utils/Initializable.sol";
 
 // based off of https://github.com/transmissions11/solmate/blob/main/src/tokens/ERC721.sol
+// original/master implementation, contract that all of the Minimal Proxies will derive functionality from.
 // only 1 mint is allowed with ID of 1
 // only the owner of 1:1 can burn
-// add Royalty component???
 
+// deployment 1,233,281 gas
 contract OneOfOne is Context, Initializable {
     
     /// EVENTS ///
@@ -51,7 +52,7 @@ contract OneOfOne is Context, Initializable {
 
     mapping(address => mapping(address => bool)) public isApprovedForAll;
 
-    /// CONSTRUCTOR ///
+    /// FUNCTION CONSTRUCTOR ///
 
     function initialize (string memory _name, string memory _symbol) public initializer {
         name = _name;
