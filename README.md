@@ -1,6 +1,6 @@
 ## One Of One NFTs
 
-> A gas optimized ERC721 for 1:1 Editions
+> Gas optimized ERC721 for 1:1 Editions
 
 `OneOfOne.sol` does not keep track of NFT ids, automatically hardcodes an id of 1, and removes the id parameter in order to save gas. OneOfOne's operate like regular ERC721s. Double minting is not allowed.
 
