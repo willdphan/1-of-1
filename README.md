@@ -1,4 +1,4 @@
-# One Of One NFTs
+# One of One NFTs
 
 > Gas optimized ERC721 for 1:1 Editions
 
