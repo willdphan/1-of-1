@@ -1,9 +1,15 @@
-1:1
+## One Of One NFTs
 
-Minimal Proxy - initializes 1:1 implementation and 1:1 Builder
+> A gas optimized ERC721 for 1:1 Editions
 
-OneOfOne - 1:1 implementation
+`OneOfOne.sol` does not keep track of NFT ids, automatically hardcodes an id of 1, and removes the id parameter in order to save gas. OneOfOne's operate like regular ERC721s. Double minting is not allowed.
 
-OneOfOneBuilder - clones 1:1 implementation
+Using the Minimal Proxy implementation, the `OneOfOneFactory.sol` is initiated with the OneOfOne implementation and deploys clones of the implementation with the createNFTContract function.
 
-OneOfOneProxy - Example Overriding OneOfOne
+Feel free to read more about [EIP1167](https://eips.ethereum.org/EIPS/eip-1167).
+
+`MinimalProxy.sol` shows the workflow of the minimal proxy implementation.
+
+`OneOfOneProxy.sol` is an example contract that shows how to upgrade/build off of the original implementation contract without affecting the contract address or ABI used by clients.
+
+[Contract Source](src/) • [Contract Tests](src/test/)
