@@ -1,4 +1,4 @@
-## One Of One NFTs
+# One Of One NFTs
 
 > Gas optimized ERC721 for 1:1 Editions
 
@@ -8,7 +8,7 @@ Using the Minimal Proxy implementation, the `OneOfOneFactory.sol` is initiated w
 
 Feel free to read more about [EIP-1167](https://eips.ethereum.org/EIPS/eip-1167).
 
-### Examples
+## Examples
 
 `MinimalProxy.sol` shows the workflow of the minimal proxy implementation.
 
