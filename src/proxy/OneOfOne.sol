@@ -3,6 +3,7 @@ pragma solidity 0.8.15;
 
 import "lib/openzeppelin-contracts/contracts/utils/Context.sol";
 import "src/proxy/utils/Initializable.sol";
+import "src/proxy/utils/OneOfOneReceiver.sol";
 
 // The 1:1 implementation and the basic functionality
 // original/master implementation, contract that all of the Minimal Proxies will derive functionality from.
@@ -10,7 +11,7 @@ import "src/proxy/utils/Initializable.sol";
 // only the owner of 1:1 can burn
 
 // deployment 1,233,281 gas
-contract OneOfOne is Context, Initializable {
+contract OneOfOne is Context, Initializable, OneOfOneTokenReceiver {
     
     /// EVENTS ///
 
@@ -204,17 +205,5 @@ contract OneOfOne is Context, Initializable {
                 OneOfOneTokenReceiver.onOneOfOneReceived.selector,
             "UNSAFE_RECIPIENT"
         );
-    }
-}
-
-/// @notice A generic interface for a contract which properly accepts ERC721 tokens.
-/// @author Solmate (https://github.com/transmissions11/solmate/blob/main/src/tokens/ERC721.sol)
-contract OneOfOneTokenReceiver {
-    function onOneOfOneReceived(
-        address,
-        address,
-        bytes calldata
-    ) external virtual returns (bytes4) {
-        return OneOfOneTokenReceiver.onOneOfOneReceived.selector;
     }
 }
