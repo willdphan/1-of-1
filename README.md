@@ -6,7 +6,7 @@
 
 Using the Minimal Proxy implementation, the `OneOfOneFactory.sol` is initiated with the OneOfOne implementation and deploys clones of the implementation with the createNFTContract function.
 
-Feel free to read more about [EIP1167](https://eips.ethereum.org/EIPS/eip-1167).
+Feel free to read more about [EIP-1167](https://eips.ethereum.org/EIPS/eip-1167).
 
 `MinimalProxy.sol` shows the workflow of the minimal proxy implementation.
 
