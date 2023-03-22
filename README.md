@@ -8,6 +8,8 @@ Using the Minimal Proxy implementation, the `OneOfOneFactory.sol` is initiated w
 
 Feel free to read more about [EIP-1167](https://eips.ethereum.org/EIPS/eip-1167).
 
+### Examples
+
 `MinimalProxy.sol` shows the workflow of the minimal proxy implementation.
 
 `OneOfOneProxy.sol` is an example contract that shows how to build off of the original implementation contract without affecting the contract address or ABI used by clients.
