@@ -5,10 +5,7 @@ import "lib/openzeppelin-contracts/contracts/utils/Context.sol";
 import "src/proxy/utils/Initializable.sol";
 import "src/proxy/utils/OneOfOneReceiver.sol";
 
-// The 1:1 implementation and the basic functionality
-// original/master implementation, contract that all of the Minimal Proxies will derive functionality from.
-// only 1 mint is allowed with ID of 1
-// only the owner of 1:1 can burn
+// 1:1 implementation/original/master implementation, contract that all of the Minimal Proxies will derive functionality from. only 1 mint is allowed with ID of 1. Only the owner of 1:1 can burn
 
 // deployment 1,233,281 gas
 contract OneOfOne is Context, Initializable, OneOfOneTokenReceiver {
@@ -90,8 +87,6 @@ contract OneOfOne is Context, Initializable, OneOfOneTokenReceiver {
             "NOT_AUTHORIZED"
         );
 
-        // Underflow of the sender's balance is impossible because we check for
-        // ownership above and the recipient's balance can't realistically overflow.
         unchecked {
             _balances[from]--;
 
