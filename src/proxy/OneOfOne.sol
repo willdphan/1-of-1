@@ -1,11 +1,10 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.15;
 
-// The 1:1 implementation and the basic functionality
 import "lib/openzeppelin-contracts/contracts/utils/Context.sol";
 import "src/proxy/utils/Initializable.sol";
 
-// based off of https://github.com/transmissions11/solmate/blob/main/src/tokens/ERC721.sol
+// The 1:1 implementation and the basic functionality
 // original/master implementation, contract that all of the Minimal Proxies will derive functionality from.
 // only 1 mint is allowed with ID of 1
 // only the owner of 1:1 can burn
@@ -21,7 +20,7 @@ contract OneOfOne is Context, Initializable {
 
     event ApprovalForAll(address indexed owner, address indexed operator, bool approved);
 
-    ///  METADATA STORAGE/LOGIC ///
+    /// METADATA STORAGE/LOGIC ///
 
     string public name;
 
@@ -35,7 +34,7 @@ contract OneOfOne is Context, Initializable {
     mapping(address => uint256) private _balances;
 
     function balanceOf(address owner) public view virtual returns (uint256) {
-        require(owner != address(0), "ERC721: address zero is not a valid owner");
+        require(owner != address(0), "OneOfOne: address zero is not a valid owner");
         return _balances[owner];
     }
 
@@ -89,6 +88,14 @@ contract OneOfOne is Context, Initializable {
             msg.sender == from || isApprovedForAll[from][msg.sender] || msg.sender == getApproved[1],
             "NOT_AUTHORIZED"
         );
+
+        // Underflow of the sender's balance is impossible because we check for
+        // ownership above and the recipient's balance can't realistically overflow.
+        unchecked {
+            _balances[from]--;
+
+            _balances[to]++;
+        }
 
         _ownerOf[1] = to;
 
