@@ -6,8 +6,8 @@ import "src/proxy/OneOfOneFactory.sol";
 
 // This is a test contract that shows workflow on Minimal Proxy Solution
 // MinimalProxy contract sets up an instance of OneOfOne and OneOfOneBuilder
-// testProxy() creates a new NFT contract using createNFTContract() 
-// function of OneOfOneFactory contract, and calls the getMetaData() from OneOfOne Contract.
+// testProxy() creates new NFT contract using createNFTContract() 
+// OneOfOneFactory contract, calls the getMetaData() from OneOfOne Contract.
 
 // deployment 1,865,609 gas
 contract MinimalProxy {
