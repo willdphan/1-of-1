@@ -14,6 +14,6 @@ Feel free to read more about [EIP-1167](https://eips.ethereum.org/EIPS/eip-1167)
 
 Thanks to [@bytes032](https://twitter.com/bytes032/status/1626253169960394754?s=20) on Twitter for the idea.
 
-** NOT FULLY TESTED, DO NOT USE **
+    NOTE: Unaudited, for educational | fun purposes. Do not use in production.
 
 [Contract Source](src/proxy) • [Contract Tests](test)
