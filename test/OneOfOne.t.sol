@@ -1,8 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 pragma solidity 0.8.15;
 
-// import {DSTestPlus} from "./utils/DSTestPlus.sol";
-// import {DSInvariantTest} from "./utils/DSInvariantTest.sol";
 import {Test} from "lib/forge-std/src/Test.sol";
 
 import {OneOfOne} from "src/proxy/OneOfOne.sol";
@@ -38,7 +36,7 @@ contract OneOfOneTest is Test {
         assertEq(one.balanceOf(bill), 1);
     }
 
-    function testFailMintZeroAddress() public {
+    function testFailMintZero() public {
         address zero = vm.addr(0);
 
         vm.expectRevert();
@@ -127,4 +125,58 @@ contract OneOfOneTest is Test {
         assertTrue(one.isApprovedForAll(address(this), address(bill)));
     }
 
+    function testTransferFrom() public {
+        one._mint(bob);
+
+        vm.prank(bob);
+        one.approve(address(this));
+        
+        one.transferFrom(bob, bill);
+
+        assertEq(one.getApproved(1), address(0));
+        assertEq(one.ownerOf(), bill);
+        assertEq(one.balanceOf(bill), 1);
+        assertEq(one.balanceOf(bob), 0);
+
+    }
+    function testTransferFromSelf() public {
+        vm.startPrank(bob);
+        one._mint(bob);
+        
+        one.transferFrom(bob, bill);
+        vm.stopPrank();
+
+        assertEq(one.getApproved(1), address(0));
+        assertEq(one.ownerOf(), bill);
+        assertEq(one.balanceOf(bill), 1);
+        assertEq(one.balanceOf(bob), 0);
+    }
+
+     function testTransferFromApproveAll() public {
+        one._mint(bob);
+
+        vm.prank(bob);
+        one.setApprovalForAll(address(this), true);
+        
+        one.transferFrom(bob, bill);
+
+        assertEq(one.getApproved(1), address(0));
+        assertEq(one.ownerOf(), bill);
+        assertEq(one.balanceOf(bill), 1);
+        assertEq(one.balanceOf(bob), 0);
+    }
+
+    function testSafeTransferFromToEOA() public {
+        one._mint(bob);
+
+        vm.prank(bob);
+        one.setApprovalForAll(address(this), true);
+        
+        one.safeTransferFrom(bob, bill);
+
+        assertEq(one.getApproved(1), address(0));
+        assertEq(one.ownerOf(), bill);
+        assertEq(one.balanceOf(bill), 1);
+        assertEq(one.balanceOf(bob), 0);
+    }
 }
