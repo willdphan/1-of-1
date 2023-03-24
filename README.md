@@ -1,6 +1,6 @@
 # One of One NFTs
 
-> A draft of gas optimized 1:1 ERC721 Editions
+> A draft of gas optimized 1:1 Editions
 
 `OneOfOne.sol` is an contract that does not keep track of NFT ids, automatically hardcodes an id of 1, and removes the id parameter in order to save gas. OneOfOne's operate like regular ERC721s. Double minting is not allowed.
 
