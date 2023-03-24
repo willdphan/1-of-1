@@ -34,26 +34,18 @@ contract OneOfOne is Context, Initializable, OneOfOneTokenReceiver {
     // Mapping owner address to token count
     mapping(address => uint256) private _balances;
 
-    // function balanceOf(address owner) public view virtual returns (uint256) {
-    //     require(owner != address(0), "OneOfOne: address zero is not a valid owner");
-    //     return _balances[owner];
-    // }
-
    function balanceOf(address owner) public view returns (uint ownerBalance) {
      assembly {
         // if no owner, revert
         if iszero(owner) {
-            revert(0, 0)
+            revert(0x00, 0x00)
         }
         // if owner is same as owner in slot, load balance
-        if eq(owner, _ownerOf.slot) {
+        if eq(owner, sload(_ownerOf.slot)) {
             ownerBalance := 1
         } 
-        // otherwise balance 0
-        ownerBalance := 0
     }
 }
-
 
     function ownerOf() public view virtual returns (address owner) {
         require((owner = _ownerOf) != address(0), "NOT_MINTED");
