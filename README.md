@@ -2,7 +2,7 @@
 
 > A draft of gas optimized 1:1 ERC721 Editions
 
-`OneOfOne.sol` is an ERC721 that does not keep track of NFT ids, automatically hardcodes an id of 1, and removes the id parameter in order to save gas. OneOfOne's operate like regular ERC721s. Double minting is not allowed.
+`OneOfOne.sol` is an contract that does not keep track of NFT ids, automatically hardcodes an id of 1, and removes the id parameter in order to save gas. OneOfOne's operate like regular ERC721s. Double minting is not allowed.
 
 Using the Minimal Proxy implementation, the `OneOfOneFactory.sol` is initiated with the OneOfOne implementation and deploys clones of the implementation with the `createNFTContract()` function.
 
