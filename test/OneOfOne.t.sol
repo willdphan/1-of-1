@@ -59,10 +59,11 @@ contract OneOfOneTest is Test {
     function testBalanceOf() public {
         assertEq(one.balanceOf(bill), 0);
 
+        vm.prank(bill);
         one._mint(bill);
+
         assertEq(one.balanceOf(bill), 1);
     }
-
     
     function testBurn() public {
         vm.startPrank(bill);
@@ -129,7 +130,7 @@ contract OneOfOneTest is Test {
     function testApproveAll() public {
         one.setApprovalForAll(address(bill), true);
 
-        assertTrue(one.isApprovedForAll(address(this), address(bill)));
+        assertTrue(one.isApprovedForAll(address(bill)));
     }
 
     function testTransferFrom() public {

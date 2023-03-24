@@ -19,7 +19,7 @@ contract OneOfOne is Context, Initializable, OneOfOneTokenReceiver {
 
     event Approval(address indexed owner, address indexed spender);
 
-    event ApprovalForAll(address indexed owner, address indexed operator, bool approved);
+    event ApprovalForAll(address indexed operator, bool approved);
 
     /// METADATA STORAGE/LOGIC ///
 
@@ -31,21 +31,20 @@ contract OneOfOne is Context, Initializable, OneOfOneTokenReceiver {
 
     address public _ownerOf;
 
-    // Mapping owner address to token count
-    mapping(address => uint256) private _balances;
+    uint public _balanceOf;
 
    function balanceOf(address owner) public view returns (uint ownerBalance) {
-     assembly {
-        // if no owner, revert
-        if iszero(owner) {
-            revert(0x00, 0x00)
+        assembly {
+            // require owner. if no owner, revert
+            if iszero(owner) {
+                revert(0x00, 0x00)
+            }
+            // if owner is same as owner in slot, load balance of 1
+            if eq(owner, sload(_ownerOf.slot)) {
+                ownerBalance := 1
+            } 
         }
-        // if owner is same as owner in slot, load balance
-        if eq(owner, sload(_ownerOf.slot)) {
-            ownerBalance := 1
-        } 
     }
-}
 
     function ownerOf() public view virtual returns (address owner) {
         require((owner = _ownerOf) != address(0), "NOT_MINTED");
@@ -58,7 +57,7 @@ contract OneOfOne is Context, Initializable, OneOfOneTokenReceiver {
 
     address public getApproved;
 
-    mapping(address => mapping(address => bool)) public isApprovedForAll;
+    mapping(address => bool) public isApprovedForAll;
 
     /// FUNCTION CONSTRUCTOR ///
 
@@ -72,7 +71,7 @@ contract OneOfOne is Context, Initializable, OneOfOneTokenReceiver {
     function approve(address spender) public virtual {
         address owner = _ownerOf;
 
-        require(msg.sender == owner || isApprovedForAll[owner][msg.sender], "NOT_AUTHORIZED");
+        require(msg.sender == owner || isApprovedForAll[msg.sender], "NOT_AUTHORIZED");
 
         getApproved = spender;
 
@@ -80,9 +79,9 @@ contract OneOfOne is Context, Initializable, OneOfOneTokenReceiver {
     }
 
     function setApprovalForAll(address operator, bool approved) public virtual {
-        isApprovedForAll[msg.sender][operator] = approved;
+        isApprovedForAll[operator] = approved;
 
-        emit ApprovalForAll(msg.sender, operator, approved);
+        emit ApprovalForAll(operator, approved);
     }
 
     function transferFrom(
@@ -94,15 +93,9 @@ contract OneOfOne is Context, Initializable, OneOfOneTokenReceiver {
         require(to != address(0), "INVALID_RECIPIENT");
 
         require(
-            msg.sender == from || isApprovedForAll[from][msg.sender] || msg.sender == getApproved,
+            msg.sender == from || isApprovedForAll[msg.sender] || msg.sender == getApproved,
             "NOT_AUTHORIZED"
         );
-
-        unchecked {
-            _balances[from]--;
-
-            _balances[to]++;
-        }
 
         _ownerOf = to;
 
@@ -159,11 +152,6 @@ contract OneOfOne is Context, Initializable, OneOfOneTokenReceiver {
         // set minted to true
         _minted = true;
 
-        // Counter overflow is incredibly unrealistic.
-        unchecked {
-            _balances[to]++;
-        }
-
         _ownerOf = to;
 
         emit Transfer(address(0), to);
@@ -173,11 +161,6 @@ contract OneOfOne is Context, Initializable, OneOfOneTokenReceiver {
         address owner = _ownerOf;
 
         require(owner != address(0), "NOT_MINTED");
-
-        // Ownership check above ensures no underflow.
-        unchecked {
-            _balances[owner]--;
-        }
 
         delete _ownerOf;
 
