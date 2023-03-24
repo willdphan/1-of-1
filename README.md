@@ -19,15 +19,3 @@ Thanks to [@bytes032](https://twitter.com/bytes032/status/1626253169960394754?s=
     NOTE: Unaudited, for educational | fun purposes. Do not use in production.
 
 [Contract Source](src/proxy) • [Contract Tests](test)
-
-
-//  function balanceOf(address owner) external view returns (uint256 ownerBalance) {
-//     assembly {
-//         if iszero(owner) {
-//             revert(0, 0)
-//         }
-//         if eq(owner, _ownerOf) {
-//             ownerBalance := sload(0x01)
-//         } 
-//     }
-// }
