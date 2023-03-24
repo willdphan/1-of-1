@@ -56,6 +56,13 @@ contract OneOfOneTest is Test {
         assertEq(one.balanceOf(bob), 0);
     }
 
+    function testBalanceOf() public {
+        assertEq(one.balanceOf(bill), 0);
+
+        one._mint(bill);
+        assertEq(one.balanceOf(bill), 1);
+    }
+
     
     function testBurn() public {
         vm.startPrank(bill);
