@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.15;
 
-import "src/proxy/OneOfOne.sol";
-import "src/proxy/OneOfOneFactory.sol";
+import "src/OneOfOne.sol";
+import "src/OneOfOneFactory.sol";
 
 // This is a test contract that shows workflow on Minimal Proxy Solution
 // MinimalProxy contract sets up an instance of OneOfOne and OneOfOneBuilder

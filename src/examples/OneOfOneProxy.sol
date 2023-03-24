@@ -3,7 +3,7 @@ pragma solidity 0.8.15;
 
 import "lib/openzeppelin-contracts/contracts/proxy/Proxy.sol";
 import "lib/forge-std/src/console.sol";
-import "src/proxy/OneOfOne.sol";
+import "src/OneOfOne.sol";
 
 // Example contract that shows how to upgrade/build off of
 // the original 1:1 implementation contract without affecting 

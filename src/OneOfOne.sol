@@ -2,8 +2,8 @@
 pragma solidity 0.8.15;
 
 import "lib/openzeppelin-contracts/contracts/utils/Context.sol";
-import "src/proxy/utils/Initializable.sol";
-import "src/proxy/utils/OneOfOneReceiver.sol";
+import "src/utils/Initializable.sol";
+import "src/utils/OneOfOneReceiver.sol";
 
 // 1:1 implementation/original/master implementation, 
 // contract that all of the Minimal Proxies will derive 
@@ -29,18 +29,34 @@ contract OneOfOne is Context, Initializable, OneOfOneTokenReceiver {
 
     /// BALANCE/OWNER STORAGE ///
 
-    mapping(uint256 => address) internal _ownerOf;
+    address public _ownerOf;
 
-     // Mapping owner address to token count
+    // Mapping owner address to token count
     mapping(address => uint256) private _balances;
 
-    function balanceOf(address owner) public view virtual returns (uint256) {
-        require(owner != address(0), "OneOfOne: address zero is not a valid owner");
-        return _balances[owner];
+    // function balanceOf(address owner) public view virtual returns (uint256) {
+    //     require(owner != address(0), "OneOfOne: address zero is not a valid owner");
+    //     return _balances[owner];
+    // }
+
+   function balanceOf(address owner) public view returns (uint ownerBalance) {
+     assembly {
+        // if no owner, revert
+        if iszero(owner) {
+            revert(0, 0)
+        }
+        // if owner is same as owner in slot, load balance
+        if eq(owner, _ownerOf.slot) {
+            ownerBalance := 1
+        } 
+        // otherwise balance 0
+        ownerBalance := 0
     }
+}
+
 
     function ownerOf() public view virtual returns (address owner) {
-        require((owner = _ownerOf[1]) != address(0), "NOT_MINTED");
+        require((owner = _ownerOf) != address(0), "NOT_MINTED");
     }
 
     /// APPROVAL STORAGE ///
@@ -48,7 +64,7 @@ contract OneOfOne is Context, Initializable, OneOfOneTokenReceiver {
     // to prevent being minted twice
     bool private _minted;
 
-    mapping(uint256 => address) public getApproved;
+    address public getApproved;
 
     mapping(address => mapping(address => bool)) public isApprovedForAll;
 
@@ -62,11 +78,11 @@ contract OneOfOne is Context, Initializable, OneOfOneTokenReceiver {
     /// LOGIC ///
 
     function approve(address spender) public virtual {
-        address owner = _ownerOf[1];
+        address owner = _ownerOf;
 
         require(msg.sender == owner || isApprovedForAll[owner][msg.sender], "NOT_AUTHORIZED");
 
-        getApproved[1] = spender;
+        getApproved = spender;
 
         emit Approval(owner, spender);
     }
@@ -81,12 +97,12 @@ contract OneOfOne is Context, Initializable, OneOfOneTokenReceiver {
         address from,
         address to
     ) public virtual {
-        require(from == _ownerOf[1], "WRONG_FROM");
+        require(from == _ownerOf, "WRONG_FROM");
 
         require(to != address(0), "INVALID_RECIPIENT");
 
         require(
-            msg.sender == from || isApprovedForAll[from][msg.sender] || msg.sender == getApproved[1],
+            msg.sender == from || isApprovedForAll[from][msg.sender] || msg.sender == getApproved,
             "NOT_AUTHORIZED"
         );
 
@@ -96,9 +112,9 @@ contract OneOfOne is Context, Initializable, OneOfOneTokenReceiver {
             _balances[to]++;
         }
 
-        _ownerOf[1] = to;
+        _ownerOf = to;
 
-        delete getApproved[1];
+        delete getApproved;
 
         emit Transfer(from, to);
     }
@@ -156,13 +172,13 @@ contract OneOfOne is Context, Initializable, OneOfOneTokenReceiver {
             _balances[to]++;
         }
 
-        _ownerOf[1] = to;
+        _ownerOf = to;
 
         emit Transfer(address(0), to);
     }
 
     function _burn() public virtual {
-        address owner = _ownerOf[1];
+        address owner = _ownerOf;
 
         require(owner != address(0), "NOT_MINTED");
 
@@ -171,9 +187,9 @@ contract OneOfOne is Context, Initializable, OneOfOneTokenReceiver {
             _balances[owner]--;
         }
 
-        delete _ownerOf[1];
+        delete _ownerOf;
 
-        delete getApproved[1];
+        delete getApproved;
 
         emit Transfer(owner, address(0));
     }
@@ -188,6 +204,7 @@ contract OneOfOne is Context, Initializable, OneOfOneTokenReceiver {
               OneOfOneTokenReceiver(to).onOneOfOneReceived(msg.sender, address(0), "") ==
               OneOfOneTokenReceiver.onOneOfOneReceived.selector,
             "UNSAFE_RECIPIENT"
+           
         );
     }
 

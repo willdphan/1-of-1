@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 pragma solidity 0.8.15;
 
-import {MyToken} from "src/proxy/ERC721.sol";
+import {MyToken} from "src/utils/ERC721.sol";
 
 import {Test} from "lib/forge-std/src/Test.sol";
 

@@ -3,8 +3,8 @@ pragma solidity 0.8.15;
 
 import {Test} from "lib/forge-std/src/Test.sol";
 
-import {OneOfOneFactory} from "src/proxy/OneOfOneFactory.sol";
-import {OneOfOne} from "src/proxy/OneOfOne.sol";
+import {OneOfOneFactory} from "src/OneOfOneFactory.sol";
+import {OneOfOne} from "test/OneOfOne.t.sol";
 
 // get gas cost for test factory deployment
 

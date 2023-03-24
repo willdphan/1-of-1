@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.15;
 
-import "src/proxy/examples/OneOfOneProxy.sol";
-import "src/proxy/OneOfOne.sol";
+import "src/examples/OneOfOneProxy.sol";
+import "src/OneOfOne.sol";
 
 // Creates new instances of the 1:1 contract
 // Takes the 1:1 implementation address as an argument

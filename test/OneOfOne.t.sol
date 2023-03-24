@@ -3,7 +3,7 @@ pragma solidity 0.8.15;
 
 import {Test} from "lib/forge-std/src/Test.sol";
 
-import {OneOfOne} from "src/proxy/OneOfOne.sol";
+import {OneOfOne} from "src/OneOfOne.sol";
 
 contract OneOfOneTest is Test {
 
@@ -99,7 +99,7 @@ contract OneOfOneTest is Test {
 
         one.approve(bill);
 
-        assertEq(one.getApproved(1), address(bill));
+        assertEq(one.getApproved(), address(bill));
     }
 
      function testApproveBurn() public {
@@ -113,7 +113,7 @@ contract OneOfOneTest is Test {
         one._burn();
 
         assertEq(one.balanceOf(bob), 0);
-        assertEq(one.getApproved(1), address(0));
+        assertEq(one.getApproved(), address(0));
 
         vm.expectRevert("NOT_MINTED");
         one.ownerOf();
@@ -133,7 +133,7 @@ contract OneOfOneTest is Test {
         
         one.transferFrom(bob, bill);
 
-        assertEq(one.getApproved(1), address(0));
+        assertEq(one.getApproved(), address(0));
         assertEq(one.ownerOf(), bill);
         assertEq(one.balanceOf(bill), 1);
         assertEq(one.balanceOf(bob), 0);
@@ -146,7 +146,7 @@ contract OneOfOneTest is Test {
         one.transferFrom(bob, bill);
         vm.stopPrank();
 
-        assertEq(one.getApproved(1), address(0));
+        assertEq(one.getApproved(), address(0));
         assertEq(one.ownerOf(), bill);
         assertEq(one.balanceOf(bill), 1);
         assertEq(one.balanceOf(bob), 0);
@@ -160,7 +160,7 @@ contract OneOfOneTest is Test {
         
         one.transferFrom(bob, bill);
 
-        assertEq(one.getApproved(1), address(0));
+        assertEq(one.getApproved(), address(0));
         assertEq(one.ownerOf(), bill);
         assertEq(one.balanceOf(bill), 1);
         assertEq(one.balanceOf(bob), 0);
@@ -174,7 +174,7 @@ contract OneOfOneTest is Test {
         
         one.safeTransferFrom(bob, bill);
 
-        assertEq(one.getApproved(1), address(0));
+        assertEq(one.getApproved(), address(0));
         assertEq(one.ownerOf(), bill);
         assertEq(one.balanceOf(bill), 1);
         assertEq(one.balanceOf(bob), 0);

@@ -14,8 +14,20 @@ Feel free to read more about [EIP-1167](https://eips.ethereum.org/EIPS/eip-1167)
 
 `OneOfOneProxy.sol` is an example contract that shows how to build off of the original implementation contract without affecting the contract address or ABI used by clients.
 
-Thanks to [@bytes032](https://twitter.com/bytes032/status/1626253169960394754?s=20) on Twitter for the idea.
+Thanks to [@bytes032](https://twitter.com/bytes032/status/1626253169960394754?s=20) and [@0X0aa0](https://twitter.com/0x0aa0 for the ideas.
 
     NOTE: Unaudited, for educational | fun purposes. Do not use in production.
 
 [Contract Source](src/proxy) • [Contract Tests](test)
+
+
+//  function balanceOf(address owner) external view returns (uint256 ownerBalance) {
+//     assembly {
+//         if iszero(owner) {
+//             revert(0, 0)
+//         }
+//         if eq(owner, _ownerOf) {
+//             ownerBalance := sload(0x01)
+//         } 
+//     }
+// }
